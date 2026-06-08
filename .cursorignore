@@ -1,0 +1,7 @@
+#.cursorignore
+node_modules/
+dist/
+build/
+.git/
+.cursor_user_data/
+*.log

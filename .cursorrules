@@ -1,0 +1,43 @@
+# Senior Principal R&D Pipeline Protocol
+
+Strictly follow these steps for the current task:
+- STEP 1: Use @pm_architect.md to analyze requirements. Output: requirements.md.
+- STEP 2: Loop Step 1 until 95% confidence.
+- STEP 3: Use @senior_architect.md to design 3-tier S.O.L.I.D architecture. Output: plan.md.
+- STEP 4: Design review.
+- STEP 5: Use @lead_developer.md for implementation phase-by-phase.
+- STEP 6: Use @cynical_sre.md for security and resilience audit.
+- STEP 7: Finalize README.md.
+
+Technical Stack: FastAPI (Python), SQLite/In-Memory, React (Tailwind).
+Always prioritize scalability and modularity.
+
+---
+
+### Step 3: Link the Agents (Windows 11 PowerShell)
+Now we make the global agents in `C:\CursorAgents` visible to your project so you can use the `@` symbol to call them.
+
+1.  Right-click the **Start button** and select **Terminal (Admin)** or **PowerShell (Admin)**.
+2.  Navigate to your project folder:
+    `cd "C:\Path\To\Your\Interview\Optimove_Task"`
+3.  Run these two commands:
+    ```powershell
+    mkdir .cursor
+    cmd /c mklink /d ".cursor\agents" "C:\CursorAgents"
+        *Note: If you get an error that the folder already exists, just skip the `mkdir` command.*
+
+---
+
+### Step 4: How to use the system (Testing the Pipeline)
+Now, when you want to start the **Optimove Survey Task**, follow this workflow:
+
+1.  **Start Step 1:** Open the Chat (**Ctrl+L**).
+2.  **Type:** > "I am starting the @Optimove task.txt. According to our @.cursorrules, let's start **Step 1**. Use the @pm_architect.md agent to find ambiguities in the distributed requirements and the 'No-DB' constraint. Generate `requirements.md`."
+3.  **The Result:** Cursor will read your `.cursorrules` for the pipeline logic and your `pm_architect.md` for the persona, ensuring a highly professional start.
+
+### Why this is the "Recommended" setup for you:
+* **Version Independent:** This works in any version of Cursor.
+* **Zero Repetition:** You don't have to copy-paste prompts. You just `@` the agent.
+* **Visible Architecture:** It shows the interviewer that you have an **Engineering System** for managing complexity, which is the hallmark of a Senior Principal or R&D Manager.
+
+**Shall we proceed to generating the specific content for the "Senior Architect" or the "README Agent" to complete your library?**
