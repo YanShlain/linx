@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Goat Cheese",
+    "description": "A delicious cheese made from goat's milk.",
+    "price": 5.99
+  },
+  {
+    "id": 2,
+    "name": "Goat Milk Soap",
+    "description": "Handmade soap enriched with nourishing goat milk.",
+    "price": 7.49
+  },
+  {
+    "id": 3,
+    "name": "Goat Yoga Mat",
+    "description": "A comfortable yoga mat with a cute goat design.",
+    "price": 19.99
+  },
+  {
+    "id": 4,
+    "name": "Goat Simulator Game",
+    "description": "Experience the thrill of being a goat in this hilarious simulator game.",
+    "price": 12.99
+  },
+  {
+    "id": 5,
+    "name": "Goat Plush Toy",
+    "description": "A soft and cuddly plush toy shaped like a goat.",
+    "price": 8.99
+  }
+]

@@ -1,6 +1,4 @@
-def main():
-    print("Hello from linx!")
-
+from linx.cli.runner import main
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Go@t Cheese",
+    "description": "A delicious cheese made from Go@t's milk.",
+    "price": 5.99
+  },
+  {
+    "id": 2,
+    "name": "Go@t Milk Soap",
+    "description": "Handmade soap enriched with nourishing Go@t milk.",
+    "price": 7.49
+  },
+  {
+    "id": 3,
+    "name": "Go@t Yoga Mat",
+    "description": "A comfortable yoga mat with a cute Go@t design.",
+    "price": 19.99
+  },
+  {
+    "id": 4,
+    "name": "Go@t Simulator Game",
+    "description": "Experience the thrill of being a Go@t in this hilarious simulator game.",
+    "price": 12.99
+  },
+  {
+    "id": 5,
+    "name": "Go@t Plush Toy",
+    "description": "A soft and cuddly plush toy shaped like a Go@t.",
+    "price": 8.99
+  }
+]
