@@ -85,7 +85,7 @@ def test_tp_5_7_full_scan_only_expected_matches():
 
 def test_tp_6_1_cli_scan_test_folder():
     result = subprocess.run(
-        [sys.executable, "main.py", TEST_FOLDER, SENSITIVE_WORD],
+        [sys.executable, "main.py", "--path", TEST_FOLDER, "--regex", SENSITIVE_WORD],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -102,7 +102,7 @@ def test_tp_6_1_cli_scan_test_folder():
 
 def test_tp_6_2_cli_missing_path():
     result = subprocess.run(
-        [sys.executable, "main.py", "missing", SENSITIVE_WORD],
+        [sys.executable, "main.py", "--path", "missing", "--regex", SENSITIVE_WORD],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -114,7 +114,7 @@ def test_tp_6_2_cli_missing_path():
 def test_tp_6_3_cli_single_file_match():
     file_path = os.path.join(TEST_FOLDER, "folder1", "text1.txt")
     result = subprocess.run(
-        [sys.executable, "main.py", file_path, SENSITIVE_WORD],
+        [sys.executable, "main.py", "--path", file_path, "--regex", SENSITIVE_WORD],
         cwd=ROOT,
         capture_output=True,
         text=True,

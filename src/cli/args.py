@@ -10,8 +10,8 @@ def parse_args(argv: list[str] | None = None) -> tuple[str, str]:
         argv: Optional argument list. When ``None``, uses ``sys.argv``.
 
     Returns:
-        A tuple of ``(absolute_path, sensitive_word)`` where ``absolute_path``
-        is the resolved scan target and ``sensitive_word`` is the search term.
+        A tuple of ``(absolute_path, search_term)`` where ``absolute_path`` is the
+        resolved scan target and ``search_term`` is the value passed to ``--regex``.
 
     Raises:
         SystemExit: If the path does not exist or required arguments are missing.
@@ -19,8 +19,16 @@ def parse_args(argv: list[str] | None = None) -> tuple[str, str]:
     parser = argparse.ArgumentParser(
         description="Scan files for a sensitive word with exact case-insensitive matching.",
     )
-    parser.add_argument("path", help="Full path to a file or directory to scan")
-    parser.add_argument("word", help="Sensitive word to search for")
+    parser.add_argument(
+        "--path",
+        required=True,
+        help="Full path to a file or directory to scan",
+    )
+    parser.add_argument(
+        "--regex",
+        required=True,
+        help="Sensitive word to search for (matched as a whole word, case-insensitive)",
+    )
 
     args = parser.parse_args(argv)
 
@@ -29,4 +37,4 @@ def parse_args(argv: list[str] | None = None) -> tuple[str, str]:
         print(f"Error: path does not exist: {args.path}", file=sys.stderr)
         sys.exit(1)
 
-    return abs_path, args.word
+    return abs_path, args.regex

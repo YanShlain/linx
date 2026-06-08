@@ -27,13 +27,13 @@ uv sync --dev
 Run the scanner with **uv**:
 
 ```bash
-uv run python main.py <path> <word>
+uv run main.py --path <path> --regex <word>
 ```
 
 Example:
 
 ```bash
-uv run python main.py test_folder goat
+uv run main.py --path test_folder --regex goat
 ```
 
 ### Getting help
@@ -41,42 +41,40 @@ uv run python main.py test_folder goat
 To print argument usage and exit:
 
 ```bash
-uv run python main.py --help
+uv run main.py --help
 ```
 
 Short form:
 
 ```bash
-uv run python main.py -h
+uv run main.py -h
 ```
 
 Example output:
 
 ```
-usage: main.py [-h] path word
+usage: main.py [-h] --path PATH --regex REGEX
 
 Scan files for a sensitive word with exact case-insensitive matching.
 
-positional arguments:
-  path        Full path to a file or directory to scan
-  word        Sensitive word to search for
-
 options:
-  -h, --help  show this help message and exit
+  -h, --help     show this help message and exit
+  --path PATH    Full path to a file or directory to scan
+  --regex REGEX  Sensitive word to search for (matched as a whole word, case-insensitive)
 ```
 
 ### Arguments
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `path` | Yes | Full path to a **file** or **directory** to scan. Directories are walked recursively. |
-| `word` | Yes | Sensitive word to search for. Treated as a **literal string** (not a custom regex). Matching is case-insensitive and exact-word only (see [Exact-word matching](#exact-word-matching)). |
+| Option | Required | Description |
+|--------|----------|-------------|
+| `--path` | Yes | Full path to a **file** or **directory** to scan. Directories are walked recursively. |
+| `--regex` | Yes | Sensitive word to search for. Treated as a **literal string** (not a custom regex). Matching is case-insensitive and exact-word only (see [Exact-word matching](#exact-word-matching)). |
 
-**Options:**
+**Other options:**
 
 | Option | Description |
 |--------|-------------|
-| `-h`, `--help` | Show usage and exit. Does not require `path` or `word`. |
+| `-h`, `--help` | Show usage and exit. Does not require `--path` or `--regex`. |
 
 When a match is found, the scanner prints:
 
