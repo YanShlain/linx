@@ -4,6 +4,18 @@ import sys
 
 
 def parse_args(argv: list[str] | None = None) -> tuple[str, str]:
+    """Parse and validate command-line arguments for the scanner.
+
+    Args:
+        argv: Optional argument list. When ``None``, uses ``sys.argv``.
+
+    Returns:
+        A tuple of ``(absolute_path, sensitive_word)`` where ``absolute_path``
+        is the resolved scan target and ``sensitive_word`` is the search term.
+
+    Raises:
+        SystemExit: If the path does not exist or required arguments are missing.
+    """
     parser = argparse.ArgumentParser(
         description="Scan files for a sensitive word with exact case-insensitive matching.",
     )

@@ -10,6 +10,14 @@ UNLIMITED_DEPTH: None = None
 
 
 def main() -> None:
+    """Scan files for a sensitive word and print paths where a match is found.
+
+    Parses CLI arguments, traverses the target path for supported file types,
+    and prints a line for each file that contains the word.
+
+    Returns:
+        None. Matching file paths are written to stdout.
+    """
     root_path, sensitive_word = parse_args()
     pattern = build_match_pattern(sensitive_word)
 
