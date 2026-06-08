@@ -1,3 +1,4 @@
+from domain.exceptions import LinxException
 from domain.protocols import ILineReader
 from readers.base import StreamingLineReader
 from readers.docx_file_reader import DocxFileReader
@@ -5,7 +6,7 @@ from readers.pdf_file_reader import PdfFileReader
 from readers.text_file_reader import TextFileReader
 
 
-class UnsupportedExtensionError(Exception):
+class UnsupportedExtensionError(LinxException):
     """Raised when no reader is registered for a file extension."""
 
 
@@ -21,8 +22,20 @@ class ReaderFactory:
         Args:
             extension: File extension including the leading dot (e.g. ``".txt"``).
             reader_cls: Reader class to instantiate for that extension.
+
+        Raises:
+            LinxException: If registration fails.
         """
-        cls._registry[extension.lower()] = reader_cls
+        try:
+            cls._registry[extension.lower()] = reader_cls
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "ReaderFactory.register",
+                {"extension": extension, "reader_cls": reader_cls.__name__},
+                exc,
+            ) from exc
 
     @classmethod
     def create(cls, extension: str, file_path: str) -> ILineReader:
@@ -37,11 +50,24 @@ class ReaderFactory:
 
         Raises:
             UnsupportedExtensionError: If ``extension`` is not registered.
+            LinxException: If reader creation fails.
         """
-        reader_cls = cls._registry.get(extension.lower())
-        if reader_cls is None:
-            raise UnsupportedExtensionError(f"Unsupported extension: {extension}")
-        return reader_cls(file_path)
+        try:
+            reader_cls = cls._registry.get(extension.lower())
+            if reader_cls is None:
+                raise UnsupportedExtensionError(
+                    "ReaderFactory.create",
+                    {"extension": extension, "file_path": file_path},
+                )
+            return reader_cls(file_path)
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "ReaderFactory.create",
+                {"extension": extension, "file_path": file_path},
+                exc,
+            ) from exc
 
 
 ReaderFactory.register(".txt", TextFileReader)

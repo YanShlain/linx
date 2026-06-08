@@ -1,5 +1,6 @@
 from pypdf import PdfReader
 
+from domain.exceptions import LinxException
 from readers.base import StreamingLineReader
 
 
@@ -11,14 +12,27 @@ class PdfFileReader(StreamingLineReader):
 
         Args:
             file_path: Path to the ``.pdf`` file to read.
+
+        Raises:
+            LinxException: If the file cannot be read.
         """
-        reader = PdfReader(file_path)
-        self._lines: list[str] = []
-        for page in reader.pages:
-            text = page.extract_text()
-            if text:
-                self._lines.extend(text.splitlines())
-        self._index = 0
+        try:
+            self._file_path = file_path
+            reader = PdfReader(file_path)
+            self._lines: list[str] = []
+            for page in reader.pages:
+                text = page.extract_text()
+                if text:
+                    self._lines.extend(text.splitlines())
+            self._index = 0
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "PdfFileReader.__init__",
+                {"file_path": file_path},
+                exc,
+            ) from exc
 
     def _fetch_next_line(self) -> str | None:
         """Return the next extracted text line.
@@ -32,6 +46,6 @@ class PdfFileReader(StreamingLineReader):
         self._index += 1
         return line
 
-    def close(self) -> None:
+    def _close(self) -> None:
         """Release reader state. No external resources are held."""
         pass

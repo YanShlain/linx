@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+from domain.exceptions import LinxException, report_linx_error
+
 
 class FileTraverser:
     """Depth-first traverser that yields non-empty supported files."""
@@ -19,12 +21,28 @@ class FileTraverser:
                 unlimited depth.
             supported_extensions: File extensions (including the leading dot)
                 that should be returned by :meth:`get_next_valid_file`.
+
+        Raises:
+            LinxException: If initialization fails.
         """
-        self._initial_path = os.path.abspath(initial_path)
-        self._max_depth = max_depth
-        self._supported_extensions = {ext.lower() for ext in supported_extensions}
-        self._stack: list[tuple[str, int]] = []
-        self._initialized = False
+        try:
+            self._initial_path = os.path.abspath(initial_path)
+            self._max_depth = max_depth
+            self._supported_extensions = {ext.lower() for ext in supported_extensions}
+            self._stack: list[tuple[str, int]] = []
+            self._initialized = False
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "FileTraverser.__init__",
+                {
+                    "initial_path": initial_path,
+                    "max_depth": max_depth,
+                    "supported_extensions": supported_extensions,
+                },
+                exc,
+            ) from exc
 
     def get_next_valid_file(self) -> str | None:
         """Return the next supported, non-empty file in depth-first order.
@@ -33,34 +51,50 @@ class FileTraverser:
             Absolute path to the next valid file, or ``None`` when traversal
             is complete.
         """
-        if not self._initialized:
-            self._initialize()
-            self._initialized = True
+        try:
+            if not self._initialized:
+                self._initialize()
+                self._initialized = True
 
-        while self._stack:
-            current_path, depth = self._stack.pop()
+            while self._stack:
+                current_path, depth = self._stack.pop()
 
-            if os.path.isfile(current_path):
-                if self._is_valid_file(current_path):
-                    return current_path
-                continue
+                if os.path.isfile(current_path):
+                    if self._is_valid_file(current_path):
+                        return current_path
+                    continue
 
-            if not os.path.isdir(current_path):
-                continue
+                if not os.path.isdir(current_path):
+                    continue
 
-            try:
-                entries = sorted(os.scandir(current_path), key=lambda e: e.name)
-            except OSError:
-                continue
+                try:
+                    entries = sorted(os.scandir(current_path), key=lambda e: e.name)
+                except OSError as exc:
+                    report_linx_error(
+                        LinxException.wrap(
+                            "FileTraverser.get_next_valid_file",
+                            {"current_path": current_path},
+                            exc,
+                        )
+                    )
+                    continue
 
-            for entry in reversed(entries):
-                if entry.is_dir(follow_symlinks=False):
-                    if self._max_depth is None or depth < self._max_depth:
-                        self._stack.append((entry.path, depth + 1))
-                elif entry.is_file(follow_symlinks=False):
-                    self._stack.append((entry.path, depth))
+                for entry in reversed(entries):
+                    if entry.is_dir(follow_symlinks=False):
+                        if self._max_depth is None or depth < self._max_depth:
+                            self._stack.append((entry.path, depth + 1))
+                    elif entry.is_file(follow_symlinks=False):
+                        self._stack.append((entry.path, depth))
 
-        return None
+            return None
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "FileTraverser.get_next_valid_file",
+                {"initial_path": self._initial_path},
+                exc,
+            ) from exc
 
     def _initialize(self) -> None:
         """Seed the traversal stack from the initial path."""
@@ -82,7 +116,17 @@ class FileTraverser:
         Returns:
             ``True`` if the file should be scanned; otherwise ``False``.
         """
-        if os.path.getsize(file_path) == 0:
+        try:
+            if os.path.getsize(file_path) == 0:
+                return False
+            extension = Path(file_path).suffix.lower()
+            return extension in self._supported_extensions
+        except OSError as exc:
+            report_linx_error(
+                LinxException.wrap(
+                    "FileTraverser._is_valid_file",
+                    {"file_path": file_path},
+                    exc,
+                )
+            )
             return False
-        extension = Path(file_path).suffix.lower()
-        return extension in self._supported_extensions

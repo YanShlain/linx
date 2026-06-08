@@ -1,5 +1,6 @@
 from docx import Document
 
+from domain.exceptions import LinxException
 from readers.base import StreamingLineReader
 
 
@@ -11,10 +12,23 @@ class DocxFileReader(StreamingLineReader):
 
         Args:
             file_path: Path to the ``.docx`` file to read.
+
+        Raises:
+            LinxException: If the file cannot be read.
         """
-        document = Document(file_path)
-        self._lines = [paragraph.text for paragraph in document.paragraphs]
-        self._index = 0
+        try:
+            self._file_path = file_path
+            document = Document(file_path)
+            self._lines = [paragraph.text for paragraph in document.paragraphs]
+            self._index = 0
+        except LinxException:
+            raise
+        except Exception as exc:
+            raise LinxException.wrap(
+                "DocxFileReader.__init__",
+                {"file_path": file_path},
+                exc,
+            ) from exc
 
     def _fetch_next_line(self) -> str | None:
         """Return the next paragraph as a line.
@@ -28,6 +42,6 @@ class DocxFileReader(StreamingLineReader):
         self._index += 1
         return line
 
-    def close(self) -> None:
+    def _close(self) -> None:
         """Release reader state. No external resources are held."""
         pass
