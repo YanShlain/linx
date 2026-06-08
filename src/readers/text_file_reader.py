@@ -1,4 +1,4 @@
-from linx.readers.base import StreamingLineReader
+from readers.base import StreamingLineReader
 
 
 class TextFileReader(StreamingLineReader):

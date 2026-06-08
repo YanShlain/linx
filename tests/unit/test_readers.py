@@ -1,9 +1,7 @@
-import os
-
 import pytest
 
-from linx.readers.factory import ReaderFactory, UnsupportedExtensionError
-from linx.readers.text_file_reader import TextFileReader
+from readers.factory import ReaderFactory, UnsupportedExtensionError
+from readers.text_file_reader import TextFileReader
 
 
 def test_tp_4_1_factory_returns_text_reader(tmp_path):

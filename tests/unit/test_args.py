@@ -3,7 +3,7 @@ import sys
 
 import pytest
 
-from linx.cli.args import parse_args
+from cli.args import parse_args
 
 TEST_FOLDER = os.path.join(os.path.dirname(__file__), "..", "..", "test_folder")
 

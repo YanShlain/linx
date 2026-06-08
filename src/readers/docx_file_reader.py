@@ -1,6 +1,6 @@
 from docx import Document
 
-from linx.readers.base import StreamingLineReader
+from readers.base import StreamingLineReader
 
 
 class DocxFileReader(StreamingLineReader):

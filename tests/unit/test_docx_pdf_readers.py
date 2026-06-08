@@ -1,11 +1,10 @@
-import pytest
 from docx import Document
 from pypdf import PdfWriter
 
-from linx.matching.word_matcher import build_match_pattern, match_word_in_file
-from linx.readers.docx_file_reader import DocxFileReader
-from linx.readers.factory import ReaderFactory
-from linx.readers.pdf_file_reader import PdfFileReader
+from matching.word_matcher import build_match_pattern, match_word_in_file
+from readers.docx_file_reader import DocxFileReader
+from readers.factory import ReaderFactory
+from readers.pdf_file_reader import PdfFileReader
 
 SENSITIVE_WORD = "goat"
 

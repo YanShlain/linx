@@ -1,7 +1,7 @@
 import pytest
 
-from linx.matching.word_matcher import build_match_pattern, match_word_in_file
-from linx.testing.fake_line_reader import FakeLineReader
+from matching.word_matcher import build_match_pattern, match_word_in_file
+from testing.fake_line_reader import FakeLineReader
 
 SENSITIVE_WORD = "goat"
 

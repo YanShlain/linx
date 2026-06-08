@@ -1,6 +1,6 @@
 import re
 
-from linx.domain.protocols import ILineReader
+from domain.protocols import ILineReader
 
 
 def build_match_pattern(sensitive_word: str) -> re.Pattern[str]:

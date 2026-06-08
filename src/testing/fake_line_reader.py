@@ -1,6 +1,3 @@
-from linx.domain.protocols import ILineReader
-
-
 class FakeLineReader:
     def __init__(self, lines: list[str]) -> None:
         self._lines = list(lines)

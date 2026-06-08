@@ -1,8 +1,6 @@
 import os
 
-import pytest
-
-from linx.traversal.file_traverser import FileTraverser
+from traversal.file_traverser import FileTraverser
 
 SUPPORTED = [".txt", ".json", ".csv", ".docx", ".pdf"]
 

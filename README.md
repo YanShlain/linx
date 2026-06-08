@@ -155,7 +155,7 @@ Without this, `FileTraverser` will skip files with that extension.
 Create a module under `src/linx/readers/` (e.g. `markdown_file_reader.py`) and subclass `StreamingLineReader`:
 
 ```python
-from linx.readers.base import StreamingLineReader
+from readers import StreamingLineReader
 
 
 class MarkdownFileReader(StreamingLineReader):
@@ -184,7 +184,7 @@ For streaming text files, follow `TextFileReader`. For document formats that loa
 In `src/linx/readers/factory.py`, import your class and register it:
 
 ```python
-from linx.readers.markdown_file_reader import MarkdownFileReader
+from readers import MarkdownFileReader
 
 ReaderFactory.register(".md", MarkdownFileReader)
 ```

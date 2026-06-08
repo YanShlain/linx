@@ -1,6 +1,6 @@
 from pypdf import PdfReader
 
-from linx.readers.base import StreamingLineReader
+from readers.base import StreamingLineReader
 
 
 class PdfFileReader(StreamingLineReader):

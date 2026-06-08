@@ -1,8 +1,8 @@
-from linx.domain.protocols import ILineReader
-from linx.readers.base import StreamingLineReader
-from linx.readers.docx_file_reader import DocxFileReader
-from linx.readers.pdf_file_reader import PdfFileReader
-from linx.readers.text_file_reader import TextFileReader
+from domain.protocols import ILineReader
+from readers.base import StreamingLineReader
+from readers.docx_file_reader import DocxFileReader
+from readers.pdf_file_reader import PdfFileReader
+from readers.text_file_reader import TextFileReader
 
 
 class UnsupportedExtensionError(Exception):

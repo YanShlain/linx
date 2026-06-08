@@ -3,12 +3,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-import pytest
-
-from linx.domain.extensions import SUPPORTED_EXTENSIONS
-from linx.matching.word_matcher import build_match_pattern, match_word_in_file
-from linx.readers.factory import ReaderFactory
-from linx.traversal.file_traverser import FileTraverser
+from domain.configurations import SUPPORTED_EXTENSIONS
+from matching.word_matcher import build_match_pattern, match_word_in_file
+from readers.factory import ReaderFactory
+from traversal.file_traverser import FileTraverser
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TEST_FOLDER = os.path.join(ROOT, "test_folder")
